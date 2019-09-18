@@ -1,0 +1,28 @@
+{{ name }}
+{{ email }}
+{{ phone }}
+{{ address | join("\n") }}
+
+
+About:
+
+{{ about | join("\n") }}
+
+
+Professional Skills:
+- {{ skills | join("\n- ")}}
+
+
+Work Experience:
+{% for job in work_history %}
+{{ job.company }} - {{ job.title }} ({{ job.start }} to {{ job.end }})
+- {{ job.accomplishments | join("\n- ") }}
+{% endfor %}
+
+Conference Speaking
+- {{ conferences | join("\n- ")}}
+
+
+Media Quotes/Articles {% for article in media %}
+- {{ article.title }}: {{ article.url }}
+{%- endfor -%}

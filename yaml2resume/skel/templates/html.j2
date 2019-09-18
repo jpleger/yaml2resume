@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <style>
+            div.nobreak {
+                page-break-after: auto;
+                page-break-inside: avoid;
+            }
+        </style>
+        <title>{{ name }}: Resume</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-lg-6">
+                    <!-- Start Header -->
+                    <div class="row">
+                        <div class="col-6">
+                            <h2>{{ name }}</h2>
+                        </div>
+                        <div class="col-6">
+                            {% if linkedin %}<div><i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/in/{{ linkedin }}" target="_blank">{{ linkedin }}</a></div>{% endif %}
+                            {% if twitter %}<div><i class="fa fa-twitter"></i> <a href="https://twitter.com/{{ twitter }}" target="_blank">{{ twitter }}</a></div>{% endif %}
+                            <div><i class="fa fa-envelope-o"></i> <a href="mailto:{{ email }}" target="_blank">{{ email }}</a></div>
+                            <div><p>{{ phone }}{%- for addr in address -%}<br/>{{ addr }}{%- endfor -%}</p></div>
+                        </div>
+                    </div>
+                    <!-- End Header -->
+                    <!-- Start Intro -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>About</h3>
+                            <div>
+                                {% for item in about %}
+                                <p>{{ item }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Intro -->
+                    <!-- Start Skills and Conferences-->
+                    <div class="row">
+                        <div class="col-6">
+                            <h3>Professional Skills</h3>
+                            <div>
+                                <ul class="fa-ul">
+                                    {% for skill in skills %}
+                                    <li><i class="fa-li fa fa-angle-double-right"></i> {{ skill }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h3>Conferences</h3>
+                            <div>
+                                <ul class="fa-ul">
+                                    {% for conference in conferences %}
+                                    <li><i class="fa-li fa fa-angle-double-right"></i> {{ conference }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End  Skills and Conferences -->
+                    <!-- Start Experience -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Experience</h3>
+                            {% for job in work_history %}
+                            <div class="job nobreak">
+                                <div class="org"><h5>{{ job.company }}</h5></div>
+                                <div class="role">{{ job.title }}</div>
+                                <div class="date"><!--<i class="fa fa-calendar"></i> -->{{ job.start }} - {{ job.end }}</div>
+                                <!--<div class="summary">{{ job.summary }}</div>-->
+                                <ul class="fa-ul">
+                                    {% for accomplishment in job.accomplishments %}
+                                        <li><i class="fa-li fa fa-angle-double-right"></i> {{ accomplishment }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- End Experience -->
+                    <!-- Start Certifications and News -->
+                    <div class="row nobreak">
+                        <div class="col-6">
+                            <h3>Certifications</h3>
+                            <div>
+                                <ul class="fa-ul">
+                                    {% for certification in certifications %}
+                                    <li><i class="fa-li fa fa-angle-double-right"></i> {{ certification }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h3>In the News</h3>
+                            <ul class="fa-ul">
+                                {% for article in media %}
+                                <li><i class="fa-li fa fa-angle-double-right"></i> <a href="{{ article.url }}">{{ article.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Certifications and News -->
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
