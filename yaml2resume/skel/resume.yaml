@@ -1,0 +1,47 @@
+---
+# Contact details about yourself
+full_name: "John Doe"
+phone: "+1 555-555-5555"
+email: "john.doe@fakedomain.com"
+address:
+  - "123 Main Street"
+  - "Anytown, USA"
+
+# A quick intro paragraph about yourself
+about:
+  - "An introductory about message to kick of your awesome resume."
+  - "Another sentence to give more details about you and your goals."
+
+# Places that I have spoken at or given talks at.
+conferences:
+  - "SuperCon"
+  - "More Awesome Conference"
+
+# Certifications that I hold
+certifications:
+  - "Spiffy Certificate (#123456)"
+  - "That Other Certificate"
+
+# Work history, including dates of employment as well as major accomplishments in that role
+work_history:
+  - company: "CompanyName, Inc"
+    title: "Python Developer"
+    start: "2019/01/01"
+    end: "present"
+    summary: "Summary of position"
+    accomplishments:
+      - "Accomplishment 1 (from main resume)"
+      - "Accomplishment 2 (from main resume)"
+
+# Skills that deserve a shout out
+skills:
+  - "Python Development"
+  - "Jinja2 Templates"
+  - "Writing YAML Files"
+
+# Any media that should be highlighted, like blog posts that have been written or mentions in the news
+media:
+  - title: "Interesting article or blog post"
+    url: "https://google.com/"
+  - title: "Another quotable article"
+    url: "https://google.com/"

@@ -1,0 +1,17 @@
+---
+# Output Path Format
+output_path_format: "{{ resume_name }}/{{ full_name }}.{{ extension }}"
+template_dir: "templates"
+static_dir: "static"
+
+# Generate base resume?
+base_resume: yes
+
+# Default behavior is to take the customized resume and insert for each field if its a list of items
+update_behaviors:
+  full_name: "replace"
+  address: "replace"
+  email: "replace"
+  phone: "replace"
+  about: "replace"
+  certifications: "append"

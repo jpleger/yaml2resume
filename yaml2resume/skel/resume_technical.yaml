@@ -1,0 +1,27 @@
+---
+# resume_technical.yaml - An example of tweaking a resume for a specific role or type of application.
+# Customizing the intro/about paragraph
+about:
+  - "A very technical intro about myself to kick off this awesome resume."
+  - "More details about my technical accomplishments."
+
+# Places that I have spoken at or given talks at.
+conferences:
+  - "Private SuperCon"
+
+# Skills
+skills:
+  - "Python2 to Python3 migrations"
+  - "Developing frameworks in Python"
+
+# Certifications that I hold
+certifications:
+  - "Technical Expert in Something (#123456)"
+
+# Work history, including dates of employment as well as major accomplishments in that role
+work_history:
+  - company: "CompanyName, Inc"
+    title: "Python Developer"
+    summary: "Technical summary of position"
+    accomplishments:
+      - "Accomplishment 1 (from technical resume)"
