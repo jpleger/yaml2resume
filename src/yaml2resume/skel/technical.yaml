@@ -23,5 +23,6 @@ work_history:
   - company: "CompanyName, Inc"
     title: "Python Developer"
     summary: "Technical summary of position"
+    start: "2019/01/01"
     accomplishments:
       - "Accomplishment 1 (from technical resume)"

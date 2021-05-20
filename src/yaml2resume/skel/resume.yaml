@@ -32,6 +32,14 @@ work_history:
     accomplishments:
       - "Accomplishment 1 (from main resume)"
       - "Accomplishment 2 (from main resume)"
+  - company: "CompanyName2, Inc"
+    title: "Artisinal Python Curator"
+    start: "2016/01/01"
+    end: "2017/01/01"
+    summary: "Stuff"
+    accomplishments:
+      - "Accomplishment 1 (from main resume)"
+      - "Accomplishment 2 (from main resume)"
 
 # Skills that deserve a shout out
 skills:
