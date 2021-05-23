@@ -1,5 +1,7 @@
 ---
 # Output Path Format
 output_path_format: "output/{{ resume_name }}/{{ full_name }}.{{ extension }}"
-theme: "default"
 static_dir: "static"
+template_dir: "templates"
+include_always:
+  - "base.yaml"

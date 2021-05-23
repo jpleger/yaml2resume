@@ -9,7 +9,7 @@ address:
 
 # A quick intro paragraph about yourself
 about:
-  - "An introductory about message to kick of your awesome resume."
+  - "This is some information from the base resume, some things that make you look good."
   - "Another sentence to give more details about you and your goals."
 
 # Places that I have spoken at or given talks at.
@@ -23,10 +23,11 @@ certifications:
   - "That Other Certificate"
 
 # Work history, including dates of employment as well as major accomplishments in that role
+# The history is keyed off Company name, title and start date. Make sure they are the same, otherwise you will have multiple jobs
 work_history:
   - company: "CompanyName, Inc"
     title: "Python Developer"
-    start: "2019/01/01"
+    start: "1/1/2019"
     end: "present"
     summary: "Summary of position"
     accomplishments:
@@ -34,8 +35,8 @@ work_history:
       - "Accomplishment 2 (from main resume)"
   - company: "CompanyName2, Inc"
     title: "Artisinal Python Curator"
-    start: "2016/01/01"
-    end: "2017/01/01"
+    start: "1/1/2016"
+    end: "1/1/2017"
     summary: "Stuff"
     accomplishments:
       - "Accomplishment 1 (from main resume)"

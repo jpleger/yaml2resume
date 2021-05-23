@@ -1,8 +1,24 @@
 #!/usr/bin/env python3
 import yaml
-import dateparser
+from datetime import datetime
 import os
+import time
 from glob import glob
+
+def parse_date(date):
+    delim_count = date.count('/')
+    # If there are two / in the date, this has a day:
+    if delim_count == 1:
+        if len(date.split('/')[1]) != 4:
+            raise ValueError('Invalid Date (should be mm/yyyy or dd/mm/yyyy): %s' % date)
+        date = "1/" + date
+    elif delim_count == 2:
+        if len(date.split('/')[2]) != 4:
+            raise ValueError('Invalid Date (should be mm/yyyy or dd/mm/yyyy): %s' % date)
+    else:
+        return datetime.now()
+    # If there
+    return datetime.strptime(date, '%d/%m/%Y')
 
 def merge_work_history(work_history):
     required_fields = ['company', 'title', 'start']
@@ -31,20 +47,13 @@ def merge_work_history(work_history):
         for k, v in job.items():
             if k not in c_job:
                 c_job[k] = v
-
     # Lets parse the dates, so we are working with a normalized date.
     for k, job in combined_work_history.items():
-        if 'start' in job:
-            job['start_parsed'] = dateparser.parse(job['start'], settings={'PREFER_DAY_OF_MONTH': 'first'})
-        end = None
-        if 'end' in job:
-            end = dateparser.parse(job['end'], settings={'PREFER_DAY_OF_MONTH': 'last'})
-        if not end:
-            end = dateparser.parse('now')
-        job['end_parsed'] = end
+        job['start_parsed'] = parse_date(job.get('start', None))
         # For each one of the jobs in the combined work history, we need to create a parsed date, which we will use to sort.
-        dateparser.parse('5/2020', settings={'PREFER_DAY_OF_MONTH': 'first'})
-    return sorted(combined_work_history.values(), key=lambda k: k['end_parsed'], reverse=True)
+        job['end_parsed'] = parse_date(job.get('end', None))
+    res = sorted(combined_work_history.values(), key=lambda k: k['end_parsed'], reverse=True)
+    return res
     
 def merge_resumes(*resumes):
     resumes = list(resumes)
@@ -83,3 +92,11 @@ def read_resumes(*filenames):
     for filename in file_list:
         yaml_resumes.append(yaml.load(open(filename, 'r'), Loader=yaml.SafeLoader))
     parsed_resumes = merge_resumes(*yaml_resumes)
+    return parsed_resumes
+
+def read_config(config_filename):
+    if not os.path.exists(config_filename):
+        raise FileNotFoundError('No configuration found: %s' % config_filename)
+    config_yaml = yaml.load(open(config_filename, 'r'), Loader=yaml.SafeLoader)
+    return config_yaml
+
