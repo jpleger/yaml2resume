@@ -55,7 +55,7 @@ def merge_work_history(work_history):
     res = sorted(combined_work_history.values(), key=lambda k: k['end_parsed'], reverse=True)
     return res
     
-def merge_resumes(*resumes):
+def merge_resumes(resumes):
     resumes = list(resumes)
     if len(resumes) <= 1:
         return resumes
@@ -72,7 +72,7 @@ def merge_resumes(*resumes):
         resume_merged['work_history'] = merge_work_history(resume_merged['work_history'])
     return resume_merged
 
-def read_resumes(*filenames):
+def read_resumes(filenames):
     file_list = []
     # Expand the user and any vars from the filnames that are passed into the function
     for filename in [os.path.expanduser(os.path.expandvars(x)) for x in filenames]:
@@ -91,7 +91,7 @@ def read_resumes(*filenames):
     yaml_resumes = []
     for filename in file_list:
         yaml_resumes.append(yaml.load(open(filename, 'r'), Loader=yaml.SafeLoader))
-    parsed_resumes = merge_resumes(*yaml_resumes)
+    parsed_resumes = merge_resumes(yaml_resumes)
     return parsed_resumes
 
 def read_config(config_filename):

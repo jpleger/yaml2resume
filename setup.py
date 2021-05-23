@@ -38,6 +38,5 @@ setuptools.setup(
     install_requires=[
         "Jinja2>=2.11.3",
         "PyYAML>=5.4.1",
-        "dateparser>=1.0.0",
     ],
 )

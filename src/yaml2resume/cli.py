@@ -17,7 +17,7 @@ def generate(args):
     # We need to get a list of file names, but exclude config.yaml, since we know that isn't what we want/need.
     # This is in the case of people going yaml2resume gen *.yaml
     yaml_files = [os.path.abspath(os.path.expanduser(os.path.expandvars(x))) for x  in args.yamlfiles if not x.endswith('config.yaml')]
-    resume = read_resumes(*yaml_files)
+    resume = read_resumes(yaml_files)
     print(resume)
     pass
 
