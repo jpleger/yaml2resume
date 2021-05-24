@@ -50,8 +50,8 @@ Since the yaml files can be pulled in by globs, you can organize using buckets a
 
 For example, if you have a list of files like:
 
- - `01_devops_kube.yaml`
- - `02_devops_monitoring.yaml`
- - `03_devops_security.yaml`
+- `01_devops_kube.yaml`
+- `02_devops_monitoring.yaml`
+- `03_devops_security.yaml`
 
 You could then use something like `yaml2resume *devops*.yaml` and pull in all the relevant resume items.
