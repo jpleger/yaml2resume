@@ -12,12 +12,9 @@ About:
 Professional Skills:
 - {{ skills | join("\n- ")}}
 
-
 Work Experience:
-{% for job in work_history %}
+{% for job in work_history -%}
 {{ job.company }} - {{ job.title }} ({{ job.start }} to {{ job.end | default('present') }})
-{% if job.summary %}{{ job.summary }}{% endif %}
-- {{ job.accomplishments | join("\n- ") }}
 {% endfor %}
 {% if conferences %}
 Conference Speaking
