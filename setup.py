@@ -29,7 +29,7 @@ setuptools.setup(
     include_package_data=True,
     package_data={
         # Include skeleton files
-        "": ["skel/*"],
+        "": ["skel/*", "skel/static/*", "skel/templates/*"],
     },
     entry_points = {
         'console_scripts': ['yaml2resume=yaml2resume.cli:main'],
