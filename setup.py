@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="yaml2resume", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="James Pleger",
     author_email="jpleger@gmail.com",
     description="Take yaml files and convert them into a resume",
