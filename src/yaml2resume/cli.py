@@ -59,6 +59,10 @@ def check(args):
         except Exception as e:
             resume = {}
             print('    [!] Failed to parse!!!')
+            continue
+        if not resume:
+            print('    [!] Resume is blank!')
+            continue
         for k, v in resume.items():
             field_text = ""
             if k in ignore_fields:
@@ -74,6 +78,7 @@ def check(args):
                     field_text = " ".join(v)
             # print(field_text)
             spellcheck_words = spellcheck_re.findall(field_text)
+            spellcheck_words = [x for x in spellcheck_words if len(x) > 1]
             spelling_errors = spell_check.unknown(spellcheck_words)
             if spelling_errors:
                 print('    [!] Potentially misspelt words in %s: %s' % (k, ', '.join(spelling_errors)))
