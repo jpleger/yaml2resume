@@ -38,9 +38,9 @@ def generate(args):
 
 def check(args):
     config_file = os.path.abspath(os.path.expanduser(os.path.expandvars(args.config)))
-    print('[+] Reading config file (%s)' % config_file)
     try:
         config = read_config(config_file)
+        print('[-] Successfully read config file (%s)' % config_file)
     except Exception as e:
         print('[!] Failed to parse config file!!!')
         print('Exception details:\n %s' % e)
@@ -52,13 +52,14 @@ def check(args):
     spell_check = SpellChecker()
     spell_check.word_frequency.load_words(config.get('spellcheck_dictionary', []))
     for yaml_file in yaml_files:
-        print('  [-] Checking %s' % yaml_file)
+        spelling_error_count = 0
+        print('  [+] Checking %s' % yaml_file)
         try:
             resume = read_resumes([yaml_file, ])
-            print('    [-] Successfully parsed')
+            print('    [-] Successfully parsed yaml file')
         except Exception as e:
             resume = {}
-            print('    [!] Failed to parse!!!')
+            print('    [!] Failed to parse file!!!')
             continue
         if not resume:
             print('    [!] Resume is blank!')
@@ -82,7 +83,9 @@ def check(args):
             spelling_errors = spell_check.unknown(spellcheck_words)
             if spelling_errors:
                 print('    [!] Potentially misspelt words in %s: %s' % (k, ', '.join(spelling_errors)))
-            #print(k, v)
+                spelling_error_count += 1
+        if not spelling_error_count:
+            print('    [-] No spelling issues found')
 
 def summary(args):
     config_file = os.path.abspath(os.path.expanduser(os.path.expandvars(args.config)))
