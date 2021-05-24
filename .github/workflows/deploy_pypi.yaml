@@ -1,17 +1,15 @@
 name: Upload yanl2resume to PyPI
-on:
-  release:
-    types: push
+on: [push]
 
 jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@master
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: 3.9
     - name: Install dependencies
       run: pip3 install wheel
     - name: Build package
