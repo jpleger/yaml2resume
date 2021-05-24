@@ -4,7 +4,8 @@
 # Output directory
 output_dir: "output"
 
-# Resume names are used to organize specific combinations of resume content, for example applying to a specific job or having a manager resume vs. an engineer resume
+# Resume names are used to organize specific combinations of resume content
+# for example when applying to a specific job or having a manager resume vs. an engineer resume
 resume_name: "resume"
 
 # File output format (txt.j2 -> Full Name.txt)
@@ -29,4 +30,7 @@ spellcheck_ignore_fields:
 # Add any words to the custom dictionary that get accidentally flagged (the spell checker is very rudimentary)
 spellcheck_dictionary:
   - "jinja2"
-  - "spiffy"
+  - "osx"
+  - "pci"
+  - "hipaa"
+  - "vpn"
