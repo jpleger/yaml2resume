@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import yaml
-from datetime import datetime
 import os
-import time
+from datetime import datetime
 from glob import glob
 
 def parse_date(date):
@@ -58,7 +57,7 @@ def merge_work_history(work_history):
 def merge_resumes(resumes):
     resumes = list(resumes)
     if len(resumes) <= 1:
-        return resumes
+        return resumes[0]
     if False in [isinstance(x, dict) for x in resumes]:
         raise ValueError('Resume should be a dict')
     resume_merged = resumes.pop(0)

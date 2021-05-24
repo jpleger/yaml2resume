@@ -2,8 +2,16 @@
 import sys
 import os
 import shutil
+import re
+from glob import glob
 from argparse import ArgumentError, ArgumentParser
-from yaml2resume.parse import read_resumes
+from spellchecker import SpellChecker
+from yaml2resume.helpers import get_yaml_abspath
+from yaml2resume.parse import read_resumes, read_config
+from yaml2resume.output import write_resume, print_summary
+from yaml2resume import __version__ as VERSION
+
+spellcheck_re  = re.compile('([a-zA-Z]+)')
 
 def init(args):
     # copy the skel folder over and place inside the directory we init to
@@ -11,21 +19,80 @@ def init(args):
     skel_dir = os.path.join(module_dir, 'skel')
     dest_dir = os.path.abspath(os.path.expanduser(os.path.expandvars(args.directory)))
     shutil.copytree(skel_dir, dest_dir, dirs_exist_ok=True)
-    print('Initialized yaml2resume in %s' % dest_dir)
+    print('[+] Initialized yaml2resume in %s' % dest_dir)
 
 def generate(args):
-    # We need to get a list of file names, but exclude config.yaml, since we know that isn't what we want/need.
-    # This is in the case of people going yaml2resume gen *.yaml
-    yaml_files = [os.path.abspath(os.path.expanduser(os.path.expandvars(x))) for x  in args.yamlfiles if not x.endswith('config.yaml')]
+    config_file = os.path.abspath(os.path.expanduser(os.path.expandvars(args.config)))
+    print('[+] Reading config (%s)' % config_file)
+    config = read_config(config_file)
+    # Read the resume yaml files, combining per the logic in the parser
+    yaml_files = get_yaml_abspath(args.yamlfiles, config=config)
+    print('[+] Using the following yaml files as inputs:')
+    for filename in yaml_files:
+        print('  [-] %s' % filename)
     resume = read_resumes(yaml_files)
-    print(resume)
-    pass
+    print('[+] Parsed resume yaml files')
+
+    # Use jinja to output the resume
+    write_resume(resume, config, out_dir=args.out_dir, resume_name=args.resume_name)
 
 def check(args):
-    pass
+    config_file = os.path.abspath(os.path.expanduser(os.path.expandvars(args.config)))
+    print('[+] Reading config file (%s)' % config_file)
+    try:
+        config = read_config(config_file)
+    except Exception as e:
+        print('[!] Failed to parse config file!!!')
+        print('Exception details:\n %s' % e)
+        sys.exit(-1)
+    target_yamls = glob(os.path.join(os.getcwd(), '*.yaml'))
+    yaml_files = get_yaml_abspath(target_yamls, config=config)
+    print('[+] Checking each resume yaml file for validity and spelling')
+    ignore_fields = config.get('spellcheck_ignore_fields', [])
+    spell_check = SpellChecker()
+    spell_check.word_frequency.load_words(config.get('spellcheck_dictionary', []))
+    for yaml_file in yaml_files:
+        print('  [-] Checking %s' % yaml_file)
+        try:
+            resume = read_resumes([yaml_file, ])
+            print('    [-] Successfully parsed')
+        except Exception as e:
+            resume = {}
+            print('    [!] Failed to parse!!!')
+        for k, v in resume.items():
+            field_text = ""
+            if k in ignore_fields:
+                continue
+            elif k == 'work_history':
+                for job in v:
+                    field_text = job.get('company', '')
+                    field_text += ' ' + job.get('title', '')
+                    field_text += ' ' + job.get('summary', '')
+                    field_text += ' ' + ' '.join(job.get('accomplishments', []))
+            elif isinstance(v, list) and len(v) > 0:
+                if isinstance(v[0], str):
+                    field_text = " ".join(v)
+            # print(field_text)
+            spellcheck_words = spellcheck_re.findall(field_text)
+            spelling_errors = spell_check.unknown(spellcheck_words)
+            if spelling_errors:
+                print('    [!] Potentially misspelt words in %s: %s' % (k, ', '.join(spelling_errors)))
+            #print(k, v)
 
 def summary(args):
-    pass
+    config_file = os.path.abspath(os.path.expanduser(os.path.expandvars(args.config)))
+    print('[+] Reading config (%s)' % config_file)
+    config = read_config(config_file)
+    # Read the resume yaml files, combining per the logic in the parser
+    yaml_files = get_yaml_abspath(args.yamlfiles, config=config)
+    print('[+] Using the following yaml files as inputs:')
+    for filename in yaml_files:
+        print('  [-] %s' % filename)
+    resume = read_resumes(yaml_files)
+    print('[+] Parsed resume yaml files')
+    print('-'*40)
+    print_summary(resume, config)
+    
 
 def main():
     parser = ArgumentParser()
@@ -43,19 +110,21 @@ def main():
     # Generate Subparser Arguments
     generate_parser.add_argument('yamlfiles', metavar='YAML_FILE', nargs='+', help='YAML files to generate resume from')
     generate_parser.add_argument('-o', '--out-dir', metavar='OUT_DIR', default=None, help='Directory to output resume to')
-    generate_parser.add_argument('-n', '--name', metavar='RESUME_NAME', default=None, help='Resume name')
+    generate_parser.add_argument('-n', '--name', metavar='RESUME_NAME', default=None, dest='resume_name', help='Resume name')
     generate_parser.add_argument('-c', '--config', metavar='CONFIG', default='./config.yaml', help='Configuration file')
 
     # Check Subparser Arguments
-    check_parser.add_argument('yamlfiles', metavar='YAML_FILE', nargs='+', help='YAML files to generate resume from')
+    check_parser.add_argument('-c', '--config', metavar='CONFIG', default='./config.yaml', help='Configuration file')
 
     # Summary Subparser Arguments
     summary_parser.add_argument('yamlfiles', metavar='YAML_FILE', nargs='+', help='YAML files to generate resume from')
+    summary_parser.add_argument('-c', '--config', metavar='CONFIG', default='./config.yaml', help='Configuration file')
 
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
         sys.exit(-1)
+    print('yaml2resume version %s\n' % VERSION)
     if args.command == 'init':
         init(args)
     elif args.command.startswith('gen'):

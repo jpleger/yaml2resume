@@ -38,5 +38,6 @@ setuptools.setup(
     install_requires=[
         "Jinja2>=2.11.3",
         "PyYAML>=5.4.1",
+        "pyspellchecker>=0.6.2",
     ],
 )

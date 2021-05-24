@@ -1,7 +1,30 @@
 ---
-# Output Path Format
-output_path_format: "output/{{ resume_name }}/{{ full_name }}.{{ extension }}"
+# config.yaml: this file is used to set global settings for yaml2resume. 
+
+# Output Directory
+output_dir: "output"
+
+# Resume Name
+resume_name: "resume"
+
+# File output format (txt.j2 -> Full Name.txt)
+file_format: "{{ full_name }}.{{ extension }}"
+
+# Static file includes (copy directly to the output dir, css, imgs, etc.)
 static_dir: "static"
-template_dir: "templates"
+
+# Templates directory (each file should be file_format.j2, for example txt.j2)
+templates_dir: "templates"
+
+# These resumes will be included regardless of the resume inputs, useful for providing a base resume
 include_always:
   - "base.yaml"
+
+spellcheck_dictionary:
+  - "jinja2"
+  - "spiffy"
+
+spellcheck_ignore_fields:
+  - "full_name"
+  - "phone"
+  - "email"
