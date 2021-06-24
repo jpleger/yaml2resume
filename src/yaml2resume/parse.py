@@ -5,6 +5,8 @@ from datetime import datetime
 from glob import glob
 
 def parse_date(date):
+    if not date:
+        return datetime.now()
     delim_count = date.count('/')
     # If there are two / in the date, this has a day:
     if delim_count == 1:
